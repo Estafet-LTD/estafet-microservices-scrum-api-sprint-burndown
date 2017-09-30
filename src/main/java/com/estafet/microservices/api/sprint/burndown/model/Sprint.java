@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -31,6 +32,7 @@ public class Sprint {
 	@Column(name = "NO_DAYS", nullable = false)
 	private Integer noDays;
 
+	@OrderBy("dayNo ASC")
 	@OneToMany(mappedBy = "sprintDaySprint", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<SprintDay> sprintDays = new ArrayList<SprintDay>();
 
@@ -73,9 +75,17 @@ public class Sprint {
 		if (task.getRemainingUpdated() == null) {
 			sprintDays.get(0).update(task);
 		} else {
-			getSprintDay(task.getRemainingUpdated()).update(task);
+			SprintDay sprintDay = getSprintDay(task.getRemainingUpdated());
+			sprintDay.update(task);
+			backfill(sprintDay.getDayNo(), task);
 		}
 		return this;
+	}
+	
+	private void backfill(int dayNo, Task task) {
+		for (int i = 0; sprintDays.get(i).getDayNo() < dayNo; i++) {
+			sprintDays.get(i).backfill(task);
+		}
 	}
 	
 	public Sprint recalculate() {

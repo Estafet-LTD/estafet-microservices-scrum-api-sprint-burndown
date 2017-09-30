@@ -40,4 +40,16 @@
 			method="onMessage" />
 	</jms:listener-container>
 	
+	<jms:listener-container connection-factory="pooledJmsConnectionFactory"
+		acknowledge="auto" destination-type="topic">
+		<jms:listener destination="update.story.topic" ref="updateStoryConsumer"
+			method="onMessage" />
+	</jms:listener-container>
+	
+	<jms:listener-container connection-factory="pooledJmsConnectionFactory"
+		acknowledge="auto" destination-type="topic">
+		<jms:listener destination="new.task.topic" ref="newTaskConsumer"
+			method="onMessage" />
+	</jms:listener-container>
+	
 </beans>

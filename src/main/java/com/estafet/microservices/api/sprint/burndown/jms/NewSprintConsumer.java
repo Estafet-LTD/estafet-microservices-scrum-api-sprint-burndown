@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.estafet.microservices.api.sprint.burndown.dao.SprintBurndownDAO;
 import com.estafet.microservices.api.sprint.burndown.model.Sprint;
@@ -19,6 +20,7 @@ public class NewSprintConsumer {
 	@Autowired
 	private SprintService sprintService;
 
+	@Transactional
 	public void onMessage(String message) {
 		try {
 			ObjectMapper mapper = new ObjectMapper();

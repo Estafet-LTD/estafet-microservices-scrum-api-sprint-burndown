@@ -1,6 +1,5 @@
 package com.estafet.microservices.api.sprint.burndown.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -15,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "SPRINT_DAY")
@@ -35,12 +36,14 @@ public class SprintDay {
 	@Column(name = "SPRINT_DAY", nullable = false)
 	private String sprintDay;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "SPRINT_ID", nullable = false, referencedColumnName = "SPRINT_ID")
 	private Sprint sprintDaySprint;
-	
-	@OneToMany(mappedBy = "taskUpdateSprintDay", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<TaskUpdate> updates = new ArrayList<TaskUpdate>();
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "taskUpdateSprintDay", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<TaskUpdate> updates;
 
 	public Integer getId() {
 		return id;
@@ -62,6 +65,10 @@ public class SprintDay {
 		return hoursTotal;
 	}
 
+	public List<TaskUpdate> getUpdates() {
+		return updates;
+	}
+
 	public SprintDay setHoursTotal(Integer hoursTotal) {
 		this.hoursTotal = hoursTotal;
 		return this;
@@ -81,16 +88,16 @@ public class SprintDay {
 		this.sprintDaySprint = sprintDaySprint;
 		return this;
 	}
-	
+
 	private TaskUpdate geTaskUpdate(Integer taskId) {
-		for (TaskUpdate update : updates) {
+		for (TaskUpdate update : getUpdates()) {
 			if (update.getTaskId().equals(taskId)) {
 				return update;
 			}
 		}
 		return null;
 	}
-	
+
 	public void update(Task task) {
 		TaskUpdate update = geTaskUpdate(task.getId());
 		if (update == null) {
@@ -99,7 +106,16 @@ public class SprintDay {
 		}
 		update.setRemainingHours(task.getRemainingHours());
 	}
-	
+
+	public void backfill(Task task) {
+		TaskUpdate update = geTaskUpdate(task.getId());
+		if (update == null) {
+			update = new TaskUpdate().setTaskId(task.getId()).setTaskUpdateSprintDay(this);
+			updates.add(update);
+			update.setRemainingHours(task.getRemainingHours());
+		}
+	}
+
 	public void recalculate() {
 		this.hoursTotal = 0;
 		for (TaskUpdate update : updates) {

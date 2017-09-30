@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "TASK_UPDATE")
 public class TaskUpdate {
@@ -26,6 +28,7 @@ public class TaskUpdate {
 	@Column(name = "REMAINING_HOURS", nullable = false)
 	private Integer remainingHours;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "SPRINT_DAY_ID", nullable = false, referencedColumnName = "SPRINT_DAY_ID")
 	private SprintDay taskUpdateSprintDay;

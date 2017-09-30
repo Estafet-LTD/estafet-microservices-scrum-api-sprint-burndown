@@ -12,8 +12,8 @@ import com.estafet.microservices.api.sprint.burndown.model.Task;
 import com.estafet.microservices.api.sprint.burndown.services.StoryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@Component(value = "updateTaskConsumer")
-public class UpdateTaskConsumer {
+@Component(value = "newTaskConsumer")
+public class NewTaskConsumer {
 
 	@Autowired
 	private SprintBurndownDAO sprintBurndownDAO;
@@ -26,8 +26,8 @@ public class UpdateTaskConsumer {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			Task task = mapper.readValue(message, Task.class);
-			if (task.getRemainingUpdated() != null) {
-				int sprintId = storyService.getTaskStory(task.getId()).getSprintId();
+			Integer sprintId = storyService.getTaskStory(task.getId()).getSprintId();
+			if (sprintId != null) {
 				Sprint sprint = sprintBurndownDAO.getSprintBurndown(sprintId).update(task);
 				sprintBurndownDAO.update(sprint);
 			}
