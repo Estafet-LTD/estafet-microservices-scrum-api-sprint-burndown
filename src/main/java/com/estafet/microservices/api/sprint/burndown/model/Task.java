@@ -1,5 +1,8 @@
 package com.estafet.microservices.api.sprint.burndown.model;
 
+import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -11,6 +14,12 @@ public class Task {
 
 	private String remainingUpdated;
 
+	private Integer storyId;
+
+	public Integer getStoryId() {
+		return storyId;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -21,6 +30,11 @@ public class Task {
 
 	public String getRemainingUpdated() {
 		return remainingUpdated;
+	}
+
+	@JsonIgnore
+	public Story getStory() {
+		return new RestTemplate().getForObject(System.getenv("STORY_API_SERVICE_URI") + "/story/{id}", Story.class, storyId);
 	}
 
 }
