@@ -1,7 +1,7 @@
 # Estafet Microservices Scrum Sprint Burndown Report
-Aggregates data from various events to produce project burndown reports. Each time a sprint has concluded, the project burndown is updated.
+Aggregates data from various events to produce sprint burndown reports.
 ## What is this?
-This application is a microservice that produces a burndown report for a project when supplied with a project id.
+This application is a microservice that produces a burndown report for a sprint when supplied with a sprint id.
 
 Each microservice has it's own git repository, but there is a master git repository that contains links to all of the repositories [here](https://github.com/Estafet-LTD/estafet-microservices-scrum).
 ## Getting Started
@@ -13,19 +13,39 @@ You can find a detailed explanation of how to install this (and other microservi
 ```json
 {
     "id": 1,
-    "sprints": [
-        {
-            "id": null,
-            "number": 0,
-            "pointsTotal": 46,
-            "projectId": null
-        },
+    "startDate": "2017-10-01 00:00:00",
+    "number": 1,
+    "noDays": 5,
+    "sprintDays": [
         {
             "id": 1,
-            "number": 1,
-            "pointsTotal": 41,
-            "status": "Completed",
-            "projectId": 1
+            "dayNo": 1,
+            "hoursTotal": 21,
+            "sprintDay": "2017-10-02 00:00:00"
+        },
+        {
+            "id": 2,
+            "dayNo": 2,
+            "hoursTotal": 0,
+            "sprintDay": "2017-10-03 00:00:00"
+        },
+        {
+            "id": 3,
+            "dayNo": 3,
+            "hoursTotal": 0,
+            "sprintDay": "2017-10-04 00:00:00"
+        },
+        {
+            "id": 4,
+            "dayNo": 4,
+            "hoursTotal": 0,
+            "sprintDay": "2017-10-05 00:00:00"
+        },
+        {
+            "id": 5,
+            "dayNo": 5,
+            "hoursTotal": 0,
+            "sprintDay": "2017-10-06 00:00:00"
         }
     ]
 }
@@ -36,13 +56,13 @@ You can find a detailed explanation of how to install this (and other microservi
 To retrieve an example the project burndown object (useful for testing to see the microservice is online).
 
 ```
-GET http://project-burndown/burndown
+GET http://sprint-burndown/burndown
 ```
 
-To retrieve a project burndown a project that has an id = 4
+To retrieve a sprint burndown a project that has an id = 1
 
 ```
-GET http://project-burndown/project/4/burndown
+GET http://sprint-burndown/sprint/1/burndown
 ```
 
 ## Environment Variables
