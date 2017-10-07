@@ -71,9 +71,9 @@ JBOSS_A_MQ_BROKER_URL=tcp://localhost:61616
 JBOSS_A_MQ_BROKER_USER=estafet
 JBOSS_A_MQ_BROKER_PASSWORD=estafet
 
-PROJECT_BURNDOWN_REPOSITORY_JDBC_URL=jdbc:postgresql://localhost:5432/project-burndown
-PROJECT_BURNDOWN_REPOSITORY_DB_USER=postgres
-PROJECT_BURNDOWN_REPOSITORY_DB_PASSWORD=welcome1
+SPRINT_BURNDOWN_JDBC_URL=jdbc:postgresql://localhost:5432/project-burndown
+SPRINT_BURNDOWN_DB_USER=postgres
+SPRINT_BURNDOWN_DB_PASSWORD=welcome1
 
 SPRINT_API_SERVICE_URI=http://localhost:8080/sprint-api
 STORY_API_SERVICE_URI=http://localhost:8080/story-api
