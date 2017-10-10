@@ -64,8 +64,8 @@ public class Sprint {
 		return this;
 	}
 
-	public Sprint update(Story story) {
-		for (Task task : story.getTasks()) {
+	public Sprint update(List<Task> tasks) {
+		for (Task task : tasks) {
 			update(task);
 		}
 		return this;

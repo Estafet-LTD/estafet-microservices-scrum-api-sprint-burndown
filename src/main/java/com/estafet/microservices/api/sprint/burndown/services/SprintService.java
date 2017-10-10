@@ -16,14 +16,17 @@ public class SprintService {
 	@Autowired
 	private SprintBurndownDAO sprintBurndownDAO;
 	
+	@Autowired
+	private RestTemplate restTemplate;
+	
 	@SuppressWarnings("unchecked")
 	public List<String> getSprintDays(int sprintId) {
-		return new RestTemplate().getForObject(System.getenv("SPRINT_API_SERVICE_URI") + "/sprint/{id}/days",
+		return restTemplate.getForObject(System.getenv("SPRINT_API_SERVICE_URI") + "/sprint/{id}/days",
 				List.class, sprintId);
 	}
 	
 	public String getSprintDay(int sprintId) {
-		return new RestTemplate().getForObject(System.getenv("SPRINT_API_SERVICE_URI") + "/sprint/{id}/day",
+		return restTemplate.getForObject(System.getenv("SPRINT_API_SERVICE_URI") + "/sprint/{id}/day",
 				String.class, sprintId);
 	}
 	

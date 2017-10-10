@@ -9,8 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class GenerateSprintBurndownSchema {
 
@@ -19,9 +18,7 @@ public class GenerateSprintBurndownSchema {
 		File drop = new File("drop-sprint-burndown-db.ddl");
 		create.delete();
 		drop.delete();
-		EntityManager em = Persistence.createEntityManagerFactory("build").createEntityManager();
-		em.close();
-		em.getEntityManagerFactory().close();
+		new ClassPathXmlApplicationContext("sprint-burndown-entity-application-context.xml").close();
 		appendSemicolon(create);
 		appendSemicolon(drop);
 	}
