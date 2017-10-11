@@ -1,9 +1,16 @@
 package com.estafet.microservices.api.sprint.burndown.model;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Story {
+public class Story implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4332677156189712787L;
 
 	private Integer id;
 
