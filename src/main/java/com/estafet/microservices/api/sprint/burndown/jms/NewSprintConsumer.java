@@ -20,7 +20,8 @@ public class NewSprintConsumer {
 
 	@Transactional
 	@JmsListener(destination = "new.sprint.topic", containerFactory = "myFactory")
-	public void onMessage(Sprint sprint) {
+	public void onMessage(String message) {
+		Sprint sprint = Sprint.fromJSON(message);
 		if (sprintBurndownDAO.getSprintBurndown(sprint.getId()) == null) {
 			sprintBurndownDAO.create(sprint.addDays(sprintService.getSprintDays(sprint.getId())));
 		}

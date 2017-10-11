@@ -21,7 +21,8 @@ public class UpdateStoryConsumer {
 
 	@Transactional
 	@JmsListener(destination = "update.story.topic", containerFactory = "myFactory")
-	public void onMessage(Story story) {
+	public void onMessage(String message) {
+		Story story = Story.fromJSON(message);
 		if (story.getStatus().equals("In Progress")) {
 			Sprint sprint = sprintBurndownDAO.getSprintBurndown(story.getSprintId());
 			sprint.update(taskService.getTasks(story));

@@ -1,6 +1,6 @@
 package com.estafet.microservices.api.sprint.burndown.model;
 
-import java.io.Serializable;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,16 +14,12 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "SPRINT")
-public class Sprint implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8452582285647861297L;
+public class Sprint {
 
 	@Id
 	@Column(name = "SPRINT_ID")
@@ -108,6 +104,14 @@ public class Sprint implements Serializable {
 			}
 		}
 		throw new RuntimeException("Invalid day - " + day);
+	}
+	
+	public static Sprint fromJSON(String message) {
+		try {
+			return new ObjectMapper().readValue(message, Sprint.class);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

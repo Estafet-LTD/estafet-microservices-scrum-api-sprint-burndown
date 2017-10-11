@@ -1,16 +1,12 @@
 package com.estafet.microservices.api.sprint.burndown.model;
 
-import java.io.Serializable;
+import java.io.IOException;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Story implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4332677156189712787L;
+public class Story {
 
 	private Integer id;
 
@@ -28,6 +24,14 @@ public class Story implements Serializable {
 
 	public Integer getSprintId() {
 		return sprintId;
+	}
+	
+	public static Story fromJSON(String message) {
+		try {
+			return new ObjectMapper().readValue(message, Story.class);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

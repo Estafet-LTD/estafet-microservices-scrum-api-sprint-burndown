@@ -1,19 +1,12 @@
 package com.estafet.microservices.api.sprint.burndown.model;
 
-import java.io.Serializable;
+import java.io.IOException;
 
-import org.springframework.web.client.RestTemplate;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Task implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6770664156876206101L;
+public class Task {
 
 	private Integer id;
 
@@ -38,10 +31,13 @@ public class Task implements Serializable {
 	public String getRemainingUpdated() {
 		return remainingUpdated;
 	}
-
-	@JsonIgnore
-	public Story getStory() {
-		return new RestTemplate().getForObject(System.getenv("STORY_API_SERVICE_URI") + "/story/{id}", Story.class, storyId);
+	
+	public static Task fromJSON(String message) {
+		try {
+			return new ObjectMapper().readValue(message, Task.class);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }
