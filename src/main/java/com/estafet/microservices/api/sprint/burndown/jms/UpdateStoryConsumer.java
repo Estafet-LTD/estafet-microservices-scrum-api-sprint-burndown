@@ -3,30 +3,29 @@ package com.estafet.microservices.api.sprint.burndown.jms;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.estafet.microservices.api.sprint.burndown.dao.SprintBurndownDAO;
-import com.estafet.microservices.api.sprint.burndown.model.Sprint;
 import com.estafet.microservices.api.sprint.burndown.model.Story;
-import com.estafet.microservices.api.sprint.burndown.services.TaskService;
+import com.estafet.microservices.api.sprint.burndown.services.StoryService;
+
+import io.opentracing.ActiveSpan;
+import io.opentracing.Tracer;
 
 @Component
 public class UpdateStoryConsumer {
 
 	@Autowired
-	private SprintBurndownDAO sprintBurndownDAO;
-
+	private Tracer tracer;
+	
 	@Autowired
-	private TaskService taskService;
+	private StoryService storyService;
 
-	@Transactional
 	@JmsListener(destination = "update.story.topic", containerFactory = "myFactory")
 	public void onMessage(String message) {
-		Story story = Story.fromJSON(message);
-		if (story.getStatus().equals("In Progress")) {
-			Sprint sprint = sprintBurndownDAO.getSprintBurndown(story.getSprintId());
-			sprint.update(taskService.getTasks(story));
-			sprintBurndownDAO.update(sprint);
+		ActiveSpan span = tracer.activeSpan().log(message);
+		try {
+			storyService.updateStory(Story.fromJSON(message));
+		} finally {
+			span.close();
 		}
 	}
 

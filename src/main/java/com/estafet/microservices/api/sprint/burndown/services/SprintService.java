@@ -35,4 +35,12 @@ public class SprintService {
 		Sprint sprintBurndown = sprintBurndownDAO.getSprintBurndown(sprintId);
 		return sprintBurndown;
 	}
+	
+	@Transactional
+	public void newSprint(Sprint sprint) {
+		if (sprintBurndownDAO.getSprintBurndown(sprint.getId()) == null) {
+			sprintBurndownDAO.create(sprint.addDays(getSprintDays(sprint.getId())));
+		}
+	}
+	
 }
