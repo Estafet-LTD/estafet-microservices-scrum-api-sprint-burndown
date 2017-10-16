@@ -122,5 +122,14 @@ public class SprintDay {
 			hoursTotal += update.getRemainingHours();
 		}
 	}
+	
+	public static SprintDay getAPI() {
+		SprintDay day = new SprintDay();
+		day.id = 1;
+		day.dayNo = 1;
+		day.hoursTotal = 10;
+		day.sprintDay = "2017-10-16 00:00:00"; 
+		return day;
+	}
 
 }

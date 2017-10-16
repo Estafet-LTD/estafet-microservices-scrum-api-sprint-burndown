@@ -114,4 +114,14 @@ public class Sprint {
 		}
 	}
 
+	public static Sprint getAPI() {
+		Sprint sprint = new Sprint();
+		sprint.id = 1;
+		sprint.noDays = 1;
+		sprint.number = 1;
+		sprint.sprintDays.add(SprintDay.getAPI());
+		sprint.startDate = "2017-10-16 00:00:00";
+		return sprint;
+	}
+	
 }
