@@ -95,7 +95,7 @@ public class Sprint {
 	public Sprint update(Task task) {
 		add(task);
 		if (task.getRemainingUpdated() == null) {
-			initialTotalHours += getTotalTaskHours();
+			initialTotalHours = getTotalTaskHours();
 		} else {
 			SprintDay sprintDay = getSprintDay(task.getRemainingUpdated());
 			sprintDay.update(task);
