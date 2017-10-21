@@ -2,7 +2,9 @@ package com.estafet.microservices.api.sprint.burndown.model;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -40,6 +43,10 @@ public class Sprint {
 	@OrderBy("dayNo ASC")
 	@OneToMany(mappedBy = "sprintDaySprint", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<SprintDay> sprintDays = new ArrayList<SprintDay>();
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "taskSprint", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<Task> tasks = new HashSet<Task>();
 	
 	public Sprint init() {
 		SprintDay day = new SprintDay();
@@ -86,14 +93,28 @@ public class Sprint {
 	}
 	
 	public Sprint update(Task task) {
+		add(task);
 		if (task.getRemainingUpdated() == null) {
-			initialTotalHours += task.getRemainingHours();
+			initialTotalHours += getTotalTaskHours();
 		} else {
 			SprintDay sprintDay = getSprintDay(task.getRemainingUpdated());
 			sprintDay.update(task);
 			backfill(sprintDay.getDayNo(), task);
 		}
 		return this;
+	}
+
+	private void add(Task task) {
+		task.setTaskSprint(this);
+		tasks.add(task);
+	}
+	
+	private int getTotalTaskHours() {
+		int hours = 0;
+		for (Task task : tasks) {
+			hours += task.getInitialHours();
+		}
+		return hours;
 	}
 	
 	private void backfill(int dayNo, Task task) {
