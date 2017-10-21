@@ -45,7 +45,7 @@ public class Sprint {
 	private List<SprintDay> sprintDays = new ArrayList<SprintDay>();
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "taskSprint", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "taskSprint", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Task> tasks = new HashSet<Task>();
 	
 	public Sprint init() {
