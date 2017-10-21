@@ -45,6 +45,10 @@ public class SprintDay {
 	@OneToMany(mappedBy = "taskUpdateSprintDay", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<TaskUpdate> updates;
 
+	void setId(Integer id) {
+		this.id = id;
+	}
+
 	public Integer getId() {
 		return id;
 	}

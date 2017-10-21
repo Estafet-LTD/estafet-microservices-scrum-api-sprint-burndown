@@ -33,7 +33,7 @@ public class SprintService {
 	@Transactional(readOnly = true)
 	public Sprint getSprintBurndown(int sprintId) {
 		Sprint sprintBurndown = sprintBurndownDAO.getSprintBurndown(sprintId);
-		return sprintBurndown;
+		return sprintBurndown.init();
 	}
 	
 	@Transactional

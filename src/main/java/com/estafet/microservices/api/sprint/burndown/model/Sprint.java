@@ -33,10 +33,22 @@ public class Sprint {
 
 	@Column(name = "NO_DAYS", nullable = false)
 	private Integer noDays;
+	
+	@Column(name = "INITIAL_TOTAL_HOURS", nullable = false)
+	private int initialTotalHours = 0;
 
 	@OrderBy("dayNo ASC")
 	@OneToMany(mappedBy = "sprintDaySprint", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<SprintDay> sprintDays = new ArrayList<SprintDay>();
+	
+	public Sprint init() {
+		SprintDay day = new SprintDay();
+		day.setId(0);
+		day.setDayNo(0);
+		day.setHoursTotal(initialTotalHours);
+		sprintDays.add(0, day);
+		return this;
+	}
 
 	public Integer getId() {
 		return id;
@@ -75,7 +87,7 @@ public class Sprint {
 	
 	public Sprint update(Task task) {
 		if (task.getRemainingUpdated() == null) {
-			sprintDays.get(0).update(task);
+			initialTotalHours += task.getRemainingHours();
 		} else {
 			SprintDay sprintDay = getSprintDay(task.getRemainingUpdated());
 			sprintDay.update(task);
