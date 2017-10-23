@@ -55,7 +55,7 @@ public class Sprint {
 		day.setHoursTotal(initialTotalHours);
 		sprintDays.add(0, day);		
 		for (int i=0; i < sprintDays.size(); i++) {
-			float coefficient = (float)i / sprintDays.size();
+			float coefficient = (float)(i+1) / sprintDays.size();
 			float ideal = initialTotalHours - (coefficient * initialTotalHours);
 			sprintDays.get(i).setIdealHours(ideal);
 		}
