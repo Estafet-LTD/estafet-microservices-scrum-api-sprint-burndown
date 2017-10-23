@@ -58,7 +58,7 @@ public class Sprint {
 		sprintDays.get(sprintDays.size()-1).setIdealHours(0f);
 		float slope = (initialTotalHours) / sprintDays.size();
 		for (int i=1; i < sprintDays.size() - 1; i++) {
-			float ideal = slope - (slope * i);
+			float ideal = slope - (slope * (i+1));
 			sprintDays.get(i).setIdealHours(ideal);
 		}
 		return this;
