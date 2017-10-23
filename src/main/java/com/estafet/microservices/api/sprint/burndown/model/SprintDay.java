@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -32,6 +33,9 @@ public class SprintDay {
 
 	@Column(name = "HOURS_TOTAL", nullable = false)
 	private Integer hoursTotal = 0;
+
+	@Transient
+	private Float idealHours;
 
 	@Column(name = "SPRINT_DAY", nullable = false)
 	private String sprintDay;
@@ -71,6 +75,10 @@ public class SprintDay {
 
 	public List<TaskUpdate> getUpdates() {
 		return updates;
+	}
+
+	public void setIdealHours(Float idealHours) {
+		this.idealHours = idealHours;
 	}
 
 	public SprintDay setHoursTotal(Integer hoursTotal) {
@@ -126,13 +134,13 @@ public class SprintDay {
 			hoursTotal += update.getRemainingHours();
 		}
 	}
-	
+
 	public static SprintDay getAPI() {
 		SprintDay day = new SprintDay();
 		day.id = 1;
 		day.dayNo = 1;
 		day.hoursTotal = 10;
-		day.sprintDay = "2017-10-16 00:00:00"; 
+		day.sprintDay = "2017-10-16 00:00:00";
 		return day;
 	}
 

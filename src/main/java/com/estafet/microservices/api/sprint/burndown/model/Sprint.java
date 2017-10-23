@@ -39,7 +39,7 @@ public class Sprint {
 	
 	@Column(name = "INITIAL_TOTAL_HOURS", nullable = false)
 	private int initialTotalHours = 0;
-
+	
 	@OrderBy("dayNo ASC")
 	@OneToMany(mappedBy = "sprintDaySprint", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<SprintDay> sprintDays = new ArrayList<SprintDay>();
@@ -53,7 +53,13 @@ public class Sprint {
 		day.setId(0);
 		day.setDayNo(0);
 		day.setHoursTotal(initialTotalHours);
-		sprintDays.add(0, day);
+		sprintDays.add(0, day);		
+		sprintDays.get(0).setIdealHours((float)initialTotalHours);
+		sprintDays.get(sprintDays.size()-1).setIdealHours(0f);
+		for (int i=1; i < sprintDays.size() - 1; i++) {
+			float ideal = (float)initialTotalHours - ((float)initialTotalHours / i+1f);
+			sprintDays.get(i).setIdealHours(ideal);
+		}
 		return this;
 	}
 
