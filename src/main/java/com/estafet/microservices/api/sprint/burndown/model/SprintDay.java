@@ -77,6 +77,10 @@ public class SprintDay {
 		return updates;
 	}
 
+	public Float getIdealHours() {
+		return idealHours;
+	}
+
 	public void setIdealHours(Float idealHours) {
 		this.idealHours = idealHours;
 	}
