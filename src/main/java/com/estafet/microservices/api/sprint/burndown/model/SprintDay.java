@@ -31,8 +31,8 @@ public class SprintDay {
 	@Column(name = "DAY_NO", nullable = false)
 	private Integer dayNo;
 
-	@Column(name = "HOURS_TOTAL", nullable = false)
-	private Integer hoursTotal = 0;
+	@Column(name = "HOURS_TOTAL")
+	private Integer hoursTotal;
 
 	@Transient
 	private Float idealHours;
@@ -133,9 +133,11 @@ public class SprintDay {
 	}
 
 	public void recalculate() {
-		this.hoursTotal = 0;
-		for (TaskUpdate update : updates) {
-			hoursTotal += update.getRemainingHours();
+		if (!updates.isEmpty()) {
+			this.hoursTotal = 0;
+			for (TaskUpdate update : updates) {
+				hoursTotal += update.getRemainingHours();
+			}	
 		}
 	}
 
