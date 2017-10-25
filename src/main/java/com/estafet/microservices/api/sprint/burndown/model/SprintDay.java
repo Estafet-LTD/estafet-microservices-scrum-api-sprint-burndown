@@ -1,6 +1,9 @@
 package com.estafet.microservices.api.sprint.burndown.model;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -47,7 +50,7 @@ public class SprintDay {
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "taskUpdateSprintDay", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<TaskUpdate> updates;
+	private Set<TaskUpdate> updates = new HashSet<TaskUpdate>();
 
 	void setId(Integer id) {
 		this.id = id;
@@ -73,7 +76,7 @@ public class SprintDay {
 		return hoursTotal;
 	}
 
-	public List<TaskUpdate> getUpdates() {
+	public Set<TaskUpdate> getUpdates() {
 		return updates;
 	}
 
@@ -106,7 +109,7 @@ public class SprintDay {
 	}
 
 	private TaskUpdate geTaskUpdate(Integer taskId) {
-		for (TaskUpdate update : getUpdates()) {
+		for (TaskUpdate update : updates) {
 			if (update.getTaskId().equals(taskId)) {
 				return update;
 			}

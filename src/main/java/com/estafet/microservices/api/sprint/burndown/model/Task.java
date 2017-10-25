@@ -33,7 +33,7 @@ public class Task {
 
 	@Transient
 	private Integer storyId;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "SPRINT_ID", nullable = false, referencedColumnName = "SPRINT_ID")
 	private Sprint taskSprint;
@@ -58,8 +58,29 @@ public class Task {
 		return remainingUpdated;
 	}
 
-	void setTaskSprint(Sprint taskSprint) {
+	Task setId(Integer id) {
+		this.id = id;
+		return this;
+	}
+
+	Task setInitialHours(Integer initialHours) {
+		this.initialHours = initialHours;
+		return this;
+	}
+
+	Task setRemainingHours(Integer remainingHours) {
+		this.remainingHours = remainingHours;
+		return this;
+	}
+
+	Task setRemainingUpdated(String remainingUpdated) {
+		this.remainingUpdated = remainingUpdated;
+		return this;
+	}
+
+	Task setTaskSprint(Sprint taskSprint) {
 		this.taskSprint = taskSprint;
+		return this;
 	}
 
 	public static Task fromJSON(String message) {

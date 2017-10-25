@@ -21,13 +21,13 @@ public class TaskUpdate {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TASK_UPDATE_ID_SEQ")
 	@Column(name = "TASK_UPDATE_ID")
 	private Integer id;
-	
+
 	@Column(name = "TASK_ID", nullable = false)
 	private Integer taskId;
-	
+
 	@Column(name = "REMAINING_HOURS", nullable = false)
 	private Integer remainingHours;
-	
+
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "SPRINT_DAY_ID", nullable = false, referencedColumnName = "SPRINT_DAY_ID")
@@ -63,7 +63,30 @@ public class TaskUpdate {
 		this.taskUpdateSprintDay = taskUpdateSprintDay;
 		return this;
 	}
-	
-	
-	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((taskId == null) ? 0 : taskId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TaskUpdate other = (TaskUpdate) obj;
+		if (taskId == null) {
+			if (other.taskId != null)
+				return false;
+		} else if (!taskId.equals(other.taskId))
+			return false;
+		return true;
+	}
+
 }
