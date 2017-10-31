@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import com.estafet.microservices.api.sprint.burndown.model.Task;
 import com.estafet.microservices.api.sprint.burndown.services.TaskService;
 
-import io.opentracing.ActiveSpan;
 import io.opentracing.Tracer;
 
 @Component
@@ -21,11 +20,10 @@ public class NewTaskConsumer {
 	
 	@JmsListener(destination = "new.task.topic", containerFactory = "myFactory")
 	public void onMessage(String message) {
-		ActiveSpan span = tracer.activeSpan().log(message);
 		try {
 			taskService.newTask(Task.fromJSON(message));
 		} finally {
-			span.close();
+			tracer.activeSpan().close();
 		}
 	}
 
