@@ -7,11 +7,6 @@ node("maven") {
 		git branch: "master", url: "https://github.com/Estafet-LTD/estafet-microservices-scrum-api-sprint-burndown"
 	}
 
-	stage("build and execute unit tests") {
-		sh "mvn clean test"
-		junit "**/target/surefire-reports/*.xml"
-	}
-
 	stage("update the database schema") {
 		sh "oc get pods --selector app=postgresql -o json -n ${project} > pods.json"
 		def json = readFile('pods.json');
