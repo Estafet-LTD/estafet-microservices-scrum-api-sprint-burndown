@@ -1,8 +1,11 @@
 alter table SPRINT_DAY drop constraint FKbt17br77tnhx5y8qgigcr8ffu;
-alter table TASK drop constraint FKjnwgruq3wykrihc20q1so5vcg;
+alter table STORY drop constraint FKgsgk46gsij1um5uo8h16kf5s9;
+alter table TASK drop constraint FK2fjocyiwq3pnx8ihjw323nex0;
 alter table TASK_UPDATE drop constraint FKd4ssw8m2o5sdcxdqtilntpxhn;
+drop table if exists MESSAGE_EVENT cascade;
 drop table if exists SPRINT cascade;
 drop table if exists SPRINT_DAY cascade;
+drop table if exists STORY cascade;
 drop table if exists TASK cascade;
 drop table if exists TASK_UPDATE cascade;
 drop sequence SPRINT_DAY_ID_SEQ;

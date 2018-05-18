@@ -1,9 +1,12 @@
 create sequence SPRINT_DAY_ID_SEQ start 1 increment 1;
 create sequence TASK_UPDATE_ID_SEQ start 1 increment 1;
+create table MESSAGE_EVENT (TOPIC_ID varchar(255) not null, MESSAGE_REFERENCE varchar(255) not null, VERSION int4, primary key (TOPIC_ID));
 create table SPRINT (SPRINT_ID int4 not null, INITIAL_TOTAL_HOURS int4 not null, NO_DAYS int4 not null, SPRINT_NUMBER int4 not null, START_DATE varchar(255) not null, primary key (SPRINT_ID));
 create table SPRINT_DAY (SPRINT_DAY_ID int4 not null, DAY_NO int4 not null, HOURS_TOTAL int4, SPRINT_DAY varchar(255) not null, SPRINT_ID int4 not null, primary key (SPRINT_DAY_ID));
-create table TASK (TASK_ID int4 not null, INITIAL_HOURS int4 not null, REMAINING_HOURS int4 not null, SPRINT_ID int4 not null, primary key (TASK_ID));
+create table STORY (STORY_ID int4 not null, STATUS varchar(255) not null, SPRINT_ID int4, primary key (STORY_ID));
+create table TASK (TASK_ID int4 not null, INITIAL_HOURS int4 not null, REMAINING_HOURS int4 not null, REMAINING_UPDATED varchar(255), STORY_ID int4 not null, primary key (TASK_ID));
 create table TASK_UPDATE (TASK_UPDATE_ID int4 not null, REMAINING_HOURS int4 not null, TASK_ID int4 not null, SPRINT_DAY_ID int4 not null, primary key (TASK_UPDATE_ID));
 alter table SPRINT_DAY add constraint FKbt17br77tnhx5y8qgigcr8ffu foreign key (SPRINT_ID) references SPRINT;
-alter table TASK add constraint FKjnwgruq3wykrihc20q1so5vcg foreign key (SPRINT_ID) references SPRINT;
+alter table STORY add constraint FKgsgk46gsij1um5uo8h16kf5s9 foreign key (SPRINT_ID) references SPRINT;
+alter table TASK add constraint FK2fjocyiwq3pnx8ihjw323nex0 foreign key (STORY_ID) references STORY;
 alter table TASK_UPDATE add constraint FKd4ssw8m2o5sdcxdqtilntpxhn foreign key (SPRINT_DAY_ID) references SPRINT_DAY;

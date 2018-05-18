@@ -15,7 +15,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -44,11 +43,11 @@ public class Sprint {
 	@OneToMany(mappedBy = "sprintDaySprint", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<SprintDay> sprintDays = new ArrayList<SprintDay>();
 	
-	@JsonIgnore
-	@OneToMany(mappedBy = "taskSprint", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<Task> tasks = new HashSet<Task>();
-	
+	@OneToMany(mappedBy = "storySprint", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Story> stories = new HashSet<Story>();
+		
 	public Sprint init() {
+		initialTotalHours = getTotalTaskHours();
 		SprintDay day = new SprintDay();
 		day.setId(0);
 		day.setDayNo(0);
@@ -90,15 +89,15 @@ public class Sprint {
 		return this;
 	}
 
-	public Sprint update(List<Task> tasks) {
-		for (Task task : tasks) {
+	public Sprint update(Story story) {
+		add(story);
+		for (Task task : story.getTasks()) {
 			update(task);
 		}
 		return this;
 	}
 	
 	public Sprint update(Task task) {
-		add(task);
 		if (task.getRemainingUpdated() == null) {
 			initialTotalHours = getTotalTaskHours();
 		} else {
@@ -109,15 +108,32 @@ public class Sprint {
 		return this;
 	}
 
-	private void add(Task task) {
-		task.setTaskSprint(this);
-		tasks.add(task);
+	public Story add(Story story) {
+		Story updated = getStory(story.getId());
+		if (updated == null) {
+			story.setStorySprint(this);
+			stories.add(story);	
+			updated = story;
+		}
+		updated.setStatus(story.getStatus());
+		return updated;
 	}
+	
+	private Story getStory(Integer storyId) {
+		for (Story story : stories) {
+			if (story.getId().equals(storyId)) {
+				return story;
+			}
+		}
+		return null;
+	}	
 	
 	private int getTotalTaskHours() {
 		int hours = 0;
-		for (Task task : tasks) {
-			hours += task.getInitialHours();
+		for (Story story : stories) {
+			for (Task task : story.getTasks()) {
+				hours += task.getInitialHours();
+			}	
 		}
 		return hours;
 	}

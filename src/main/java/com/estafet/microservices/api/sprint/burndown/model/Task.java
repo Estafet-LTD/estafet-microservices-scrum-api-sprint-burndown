@@ -28,18 +28,26 @@ public class Task {
 	@Column(name = "REMAINING_HOURS", nullable = false)
 	private Integer remainingHours;
 
-	@Transient
+	@Column(name = "REMAINING_UPDATED")
 	private String remainingUpdated;
 
 	@Transient
 	private Integer storyId;
 
 	@ManyToOne
-	@JoinColumn(name = "SPRINT_ID", nullable = false, referencedColumnName = "SPRINT_ID")
-	private Sprint taskSprint;
+	@JoinColumn(name = "STORY_ID", nullable = false, referencedColumnName = "STORY_ID")
+	private Story taskStory;
 
 	public Integer getStoryId() {
 		return storyId;
+	}
+
+	public Story getTaskStory() {
+		return taskStory;
+	}
+
+	public void setTaskStory(Story taskStory) {
+		this.taskStory = taskStory;
 	}
 
 	public Integer getId() {
@@ -75,11 +83,6 @@ public class Task {
 
 	Task setRemainingUpdated(String remainingUpdated) {
 		this.remainingUpdated = remainingUpdated;
-		return this;
-	}
-
-	Task setTaskSprint(Sprint taskSprint) {
-		this.taskSprint = taskSprint;
 		return this;
 	}
 

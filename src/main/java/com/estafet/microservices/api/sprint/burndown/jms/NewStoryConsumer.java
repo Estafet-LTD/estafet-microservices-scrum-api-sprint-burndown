@@ -12,7 +12,7 @@ import com.estafet.microservices.api.sprint.burndown.services.SprintService;
 import io.opentracing.Tracer;
 
 @Component
-public class UpdateStoryConsumer {
+public class NewStoryConsumer {
 
 	@Autowired
 	private Tracer tracer;
@@ -23,11 +23,11 @@ public class UpdateStoryConsumer {
 	@Autowired
 	private MessageEventHandler messageEventHandler;
 
-	@JmsListener(destination = "update.story.topic", containerFactory = "myFactory")
+	@JmsListener(destination = "new.story.topic", containerFactory = "myFactory")
 	public void onMessage(String message, @Header("message.event.interaction.reference") String reference) {
 		try {
-			if (messageEventHandler.isValid("update.story.topic", reference)) {
-				sprintService.updateStory(Story.fromJSON(message));
+			if (messageEventHandler.isValid("new.story.topic", reference)) {
+				sprintService.newStory(Story.fromJSON(message));
 			}
 		} finally {
 			tracer.activeSpan().close();
