@@ -52,7 +52,7 @@ public class ITSprintBurndownTest {
 	@Test
 	@DatabaseSetup("ITSprintBurndownTest-data.xml")
 	public void testGetSprintBurndown() {
-		get("/sprint/1000").then()
+		get("/sprint/1000/burndown").then()
 			.statusCode(HttpURLConnection.HTTP_OK)
 			.body("id", is(1))
 			.body("number", is(1))
