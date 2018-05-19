@@ -26,7 +26,7 @@ public class UpdateTaskConsumer {
 	@JmsListener(destination = "update.task.topic", containerFactory = "myFactory")
 	public void onMessage(String message, @Header("message.event.interaction.reference") String reference) {
 		try {
-			if (messageEventHandler.isValid("new.sprint.topic", reference)) {
+			if (messageEventHandler.isValid("update.task.topic", reference)) {
 				sprintService.updateTask(Task.fromJSON(message));
 			}
 		} finally {

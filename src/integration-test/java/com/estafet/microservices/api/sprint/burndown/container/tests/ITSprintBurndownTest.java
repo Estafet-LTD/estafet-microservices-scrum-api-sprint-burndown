@@ -107,7 +107,7 @@ public class ITSprintBurndownTest {
 				"    \"initialHours\": 13,\r\n" + 
 				"    \"remainingHours\": 13,\r\n" + 
 				"    \"status\": \"Not Started\",\r\n" + 
-				"    \"remainingUpdated\": \"2017-10-06 00:00:00\",\r\n" + 
+				"    \"remainingUpdated\": \"2016-10-01 00:00:00\",\r\n" + 
 				"    \"storyId\": 1\r\n" + 
 				"}");
 		
@@ -118,7 +118,7 @@ public class ITSprintBurndownTest {
 				"    \"initialHours\": 20,\r\n" + 
 				"    \"remainingHours\": 20,\r\n" + 
 				"    \"status\": \"Not Started\",\r\n" + 
-				"    \"remainingUpdated\": \"2017-10-06 00:00:00\",\r\n" + 
+				"    \"remainingUpdated\": \"2016-10-01 00:00:00\",\r\n" + 
 				"    \"storyId\": 1\r\n" + 
 				"}");
 		
@@ -129,7 +129,7 @@ public class ITSprintBurndownTest {
 				"    \"initialHours\": 8,\r\n" + 
 				"    \"remainingHours\": 8,\r\n" + 
 				"    \"status\": \"Not Started\",\r\n" + 
-				"    \"remainingUpdated\": \"2017-10-06 00:00:00\",\r\n" + 
+				"    \"remainingUpdated\": \"2016-10-01 00:00:00\",\r\n" + 
 				"    \"storyId\": 1\r\n" + 
 				"}");
 		
