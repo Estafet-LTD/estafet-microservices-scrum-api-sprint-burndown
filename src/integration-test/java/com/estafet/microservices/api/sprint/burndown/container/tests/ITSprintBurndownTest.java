@@ -75,7 +75,6 @@ public class ITSprintBurndownTest {
 			.body("sprintDays.hoursTotal", hasItems(0, 0, 0, 0, 0))
 			.body("sprintDays.sprintDay", hasItems(null, "2016-10-01 00:00:00", "2016-10-02 00:00:00", "2016-10-03 00:00:00", "2016-10-04 00:00:00"));		
 	}
-
 	
 	@Test
 	@DatabaseSetup("ITSprintBurndownTest-data.xml")
@@ -138,20 +137,8 @@ public class ITSprintBurndownTest {
 			.body("id", is(2000))
 			.body("number", is(2))
 			.body("sprintDays.dayNo", hasItems(1, 2, 3, 4, 5))
-			.body("sprintDays.hoursTotal", hasItems(28, 0, 0, 0, 0));
+			.body("sprintDays.hoursTotal", hasItems(41, 41, 0, 0, 0));
 		
-	}
-	
-	@Test
-	@DatabaseSetup("ITSprintBurndownTest-data.xml")
-	public void testUpdateStoryConsumer() {
-		fail("Not yet implemented");
-	}
-	
-	@Test
-	@DatabaseSetup("ITSprintBurndownTest-data.xml")
-	public void testUpdateTaskConsumer() {
-		fail("Not yet implemented");
 	}
 
 }
