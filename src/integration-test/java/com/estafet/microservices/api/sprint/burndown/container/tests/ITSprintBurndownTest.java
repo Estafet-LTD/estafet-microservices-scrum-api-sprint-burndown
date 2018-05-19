@@ -137,7 +137,7 @@ public class ITSprintBurndownTest {
 			.body("id", is(2000))
 			.body("number", is(2))
 			.body("sprintDays.dayNo", hasItems(1, 2, 3, 4, 5))
-			.body("sprintDays.hoursTotal", hasItems(41, 41, 0, 0, 0));
+			.body("sprintDays.hoursTotal", hasItems(41, 41, null, null, null, null));
 		
 	}
 
