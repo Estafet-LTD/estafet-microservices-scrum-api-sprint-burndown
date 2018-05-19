@@ -46,7 +46,7 @@ public class ITSprintBurndownTest {
 			.statusCode(HttpURLConnection.HTTP_OK)
 			.body("id", is(1))
 			.body("number", is(1))
-			.body("noDays", is(5));
+			.body("noDays", is(1));
 	}
 
 	@Test
