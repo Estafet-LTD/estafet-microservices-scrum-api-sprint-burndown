@@ -36,10 +36,6 @@ public class ITSprintBurndownTest {
 		RestAssured.baseURI = System.getenv("SPRINT_BURNDOWN_SERVICE_URI");
 	}
 
-	@After
-	public void after() throws Exception {
-	}
-
 	@Test
 	public void testGetAPI() {
 		get("/api").then()
@@ -65,7 +61,24 @@ public class ITSprintBurndownTest {
 	@Test
 	@DatabaseSetup("ITSprintBurndownTest-data.xml")
 	public void testNewSprintConsumer() {
-		fail("Not yet implemented");
+		NewSprintTopicProducer.send("{\r\n" + 
+				"    \"id\": 2000,\r\n" + 
+				"    \"startDate\": \"2016-10-01 00:00:00\",\r\n" + 
+				"    \"endDate\": \"2016-10-05 00:00:00\",\r\n" + 
+				"    \"number\": 2,\r\n" + 
+				"    \"status\": \"Active\",\r\n" + 
+				"    \"projectId\": 1,\r\n" + 
+				"    \"noDays\": 5\r\n" + 
+				"}");
+		
+		get("/sprint/2000/burndown").then()
+			.statusCode(HttpURLConnection.HTTP_OK)
+			.body("id", is(2000))
+			.body("number", is(2))
+			.body("sprintDays.id", hasItems(1, 2, 3, 4, 5))
+			.body("sprintDays.dayNo", hasItems(1, 2, 3, 4, 5))
+			.body("sprintDays.hoursTotal", hasItems(0, 0, 0, 0, 0))
+			.body("sprintDays.sprintDay", hasItems("2016-10-01 00:00:00", "2016-10-02 00:00:00", "2016-10-03 00:00:00", "2016-10-04 00:00:00", "2016-10-05 00:00:00"));		
 	}
 	
 	@Test

@@ -34,12 +34,7 @@ public class SprintService {
 		return restTemplate.getForObject(System.getenv("SPRINT_API_SERVICE_URI") + "/sprint/{id}/days",
 				List.class, sprintId);
 	}
-	
-	public String getSprintDay(int sprintId) {
-		return restTemplate.getForObject(System.getenv("SPRINT_API_SERVICE_URI") + "/sprint/{id}/day",
-				String.class, sprintId);
-	}
-	
+		
 	@Transactional(readOnly = true)
 	public Sprint getSprintBurndown(int sprintId) {
 		Sprint sprintBurndown = sprintBurndownDAO.getSprintBurndown(sprintId);
