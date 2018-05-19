@@ -2,7 +2,6 @@ package com.estafet.microservices.api.sprint.burndown.container.tests;
 
 import static org.junit.Assert.*;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,9 +10,6 @@ import java.net.HttpURLConnection;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -24,7 +20,6 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 
 import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
@@ -80,17 +75,73 @@ public class ITSprintBurndownTest {
 			.body("sprintDays.hoursTotal", hasItems(0, 0, 0, 0, 0))
 			.body("sprintDays.sprintDay", hasItems(null, "2016-10-01 00:00:00", "2016-10-02 00:00:00", "2016-10-03 00:00:00", "2016-10-04 00:00:00"));		
 	}
-	
-	@Test
-	@DatabaseSetup("ITSprintBurndownTest-data.xml")
-	public void testNewStoryConsumer() {
-		fail("Not yet implemented");
-	}
+
 	
 	@Test
 	@DatabaseSetup("ITSprintBurndownTest-data.xml")
 	public void testNewTaskConsumer() {
-		fail("Not yet implemented");
+		NewSprintTopicProducer.send("{\r\n" + 
+				"    \"id\": 2000,\r\n" + 
+				"    \"startDate\": \"2016-10-01 00:00:00\",\r\n" + 
+				"    \"endDate\": \"2016-10-05 00:00:00\",\r\n" + 
+				"    \"number\": 2,\r\n" + 
+				"    \"status\": \"Active\",\r\n" + 
+				"    \"projectId\": 1,\r\n" + 
+				"    \"noDays\": 5\r\n" + 
+				"}");
+		
+		NewStoryTopicProducer.send("{\r\n" + 
+				"    \"id\": 1,\r\n" + 
+				"    \"title\": \"some test story\",\r\n" + 
+				"    \"description\": \"hghghg\",\r\n" + 
+				"    \"storypoints\": 5,\r\n" + 
+				"    \"sprintId\": 2000,\r\n" + 
+				"    \"projectId\": 1,\r\n" + 
+				"    \"status\": \"Not Started\"\r\n" + 
+				"}");
+		
+		NewTaskTopicProducer.send("{\r\n" + 
+				"    \"id\": 1,\r\n" + 
+				"    \"title\": \"this is a task\",\r\n" + 
+				"    \"description\": \"testing\",\r\n" + 
+				"    \"initialHours\": 13,\r\n" + 
+				"    \"remainingHours\": 13,\r\n" + 
+				"    \"status\": \"Not Started\",\r\n" + 
+				"    \"remainingUpdated\": \"2017-10-06 00:00:00\",\r\n" + 
+				"    \"storyId\": 1\r\n" + 
+				"}");
+		
+		NewTaskTopicProducer.send("{\r\n" + 
+				"    \"id\": 2,\r\n" + 
+				"    \"title\": \"this is a task\",\r\n" + 
+				"    \"description\": \"testing\",\r\n" + 
+				"    \"initialHours\": 20,\r\n" + 
+				"    \"remainingHours\": 20,\r\n" + 
+				"    \"status\": \"Not Started\",\r\n" + 
+				"    \"remainingUpdated\": \"2017-10-06 00:00:00\",\r\n" + 
+				"    \"storyId\": 1\r\n" + 
+				"}");
+		
+		NewTaskTopicProducer.send("{\r\n" + 
+				"    \"id\": 3,\r\n" + 
+				"    \"title\": \"this is a task\",\r\n" + 
+				"    \"description\": \"testing\",\r\n" + 
+				"    \"initialHours\": 8,\r\n" + 
+				"    \"remainingHours\": 8,\r\n" + 
+				"    \"status\": \"Not Started\",\r\n" + 
+				"    \"remainingUpdated\": \"2017-10-06 00:00:00\",\r\n" + 
+				"    \"storyId\": 1\r\n" + 
+				"}");
+		
+		get("/sprint/2000/burndown").then()
+			.statusCode(HttpURLConnection.HTTP_OK)
+			.body("id", is(2000))
+			.body("number", is(2))
+			.body("sprintDays.id", hasItems(1, 2, 3, 4, 5))
+			.body("sprintDays.dayNo", hasItems(1, 2, 3, 4, 5))
+			.body("sprintDays.hoursTotal", hasItems(28, 0, 0, 0, 0))
+			.body("sprintDays.sprintDay", hasItems(null, "2016-10-01 00:00:00", "2016-10-02 00:00:00", "2016-10-03 00:00:00", "2016-10-04 00:00:00"));
+		
 	}
 	
 	@Test
