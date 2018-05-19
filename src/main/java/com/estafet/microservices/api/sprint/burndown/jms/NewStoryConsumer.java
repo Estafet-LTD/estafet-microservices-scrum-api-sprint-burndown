@@ -30,7 +30,9 @@ public class NewStoryConsumer {
 				sprintService.newStory(Story.fromJSON(message));
 			}
 		} finally {
-			tracer.activeSpan().close();
+			if (tracer.activeSpan() != null) {
+				tracer.activeSpan().close();	
+			}
 		}
 	}
 

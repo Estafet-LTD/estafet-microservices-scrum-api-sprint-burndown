@@ -30,7 +30,9 @@ public class NewTaskConsumer {
 				sprintService.newTask(Task.fromJSON(message));	
 			}
 		} finally {
-			tracer.activeSpan().close();
+			if (tracer.activeSpan() != null) {
+				tracer.activeSpan().close();	
+			}
 		}
 	}
 	
