@@ -60,9 +60,11 @@ node('maven') {
 	stage("update database") {
 		sh "oc get pods --selector app=postgresql -o json -n ${project} > pods.json"
 		def json = readFile('pods.json')
-		def pod = new groovy.json.JsonSlurper().parseText(json).items[0].metadata.name
+		def pod = new groovy.json.JsonSlurper().parseText(json).items[0].metadata.name	
 		sh "oc rsync --no-perms=true --include=\"*.ddl\" --exclude=\"*\" ./ ${pod}:/tmp -n ${project}"	
-		sh "oc exec ${pod}  -n ${project} -- /bin/sh -i -c \"psql -U postgres -tc SELECT 1 FROM pg_database WHERE datname = '${microservice}' | grep -q 1 || psql -U postgres -c CREATE DATABASE ${microservice}\""
+		sh "oc rsync --no-perms=true --include=\"createdb.sh\" --exclude=\"*\" ./ ${pod}:/tmp -n ${project}"	
+		sh "oc exec ${pod}  -n ${project} -- /bin/sh -i -c \chmod +x /tmp/createdb.sh"
+		sh "oc exec ${pod}  -n ${project} -- /bin/sh -i -c \/tmp/createdb.sh"
 		sh "oc exec ${pod}  -n ${project} -- /bin/sh -i -c \"psql -d ${microservice} -U postgres -f /tmp/drop-${microservice}-db.ddl\""
 		sh "oc exec ${pod}  -n ${project} -- /bin/sh -i -c \"psql -d ${microservice} -U postgres -f /tmp/create-${microservice}-db.ddl\""
 	}	
