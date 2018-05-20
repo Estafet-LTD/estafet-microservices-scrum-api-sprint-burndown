@@ -53,7 +53,7 @@ node('maven') {
 		} 
 	}	
 
-	stage("tag container with release version") {
+	stage("tag image") {
 		openshiftTag namespace: project, srcStream: microservice, srcTag: 'PrepareForTesting', destinationNamespace: 'prod', destinationStream: microservice, destinationTag: releaseVersion
 	}
 
