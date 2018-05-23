@@ -14,6 +14,8 @@ import io.opentracing.Tracer;
 @Component
 public class NewTaskConsumer {
 
+	public final static String TOPIC = "new.task.topic";
+	
 	@Autowired
 	private Tracer tracer;
 	
@@ -23,10 +25,10 @@ public class NewTaskConsumer {
 	@Autowired
 	private MessageEventHandler messageEventHandler;
 
-	@JmsListener(destination = "new.task.topic", containerFactory = "myFactory")
+	@JmsListener(destination = TOPIC, containerFactory = "myFactory")
 	public void onMessage(String message, @Header("message.event.interaction.reference") String reference) {
 		try {
-			if (messageEventHandler.isValid("new.task.topic", reference)) {
+			if (messageEventHandler.isValid(TOPIC, reference)) {
 				sprintService.newTask(Task.fromJSON(message));	
 			}
 		} finally {
