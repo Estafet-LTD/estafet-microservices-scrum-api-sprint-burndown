@@ -8,6 +8,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -39,7 +40,7 @@ public class Story {
 	private Set<Task> tasks = new HashSet<Task>();
 
 	@ManyToOne
-	@JoinColumn(name = "SPRINT_ID", nullable = true, referencedColumnName = "SPRINT_ID")
+	@JoinColumn(name = "SPRINT_ID", nullable = true, referencedColumnName = "SPRINT_ID", foreignKey = @ForeignKey(name = "STORY_TO_SPRINT_FK"))
 	private Sprint storySprint;
 
 	public Task add(Task task) {

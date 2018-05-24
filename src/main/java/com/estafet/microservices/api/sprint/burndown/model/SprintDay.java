@@ -7,6 +7,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -43,7 +44,7 @@ public class SprintDay {
 
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "SPRINT_ID", nullable = false, referencedColumnName = "SPRINT_ID")
+	@JoinColumn(name = "SPRINT_ID", nullable = false, referencedColumnName = "SPRINT_ID", foreignKey = @ForeignKey(name = "SPRINT_DAY_TO_SPRINT_FK"))
 	private Sprint sprintDaySprint;
 
 	@JsonIgnore

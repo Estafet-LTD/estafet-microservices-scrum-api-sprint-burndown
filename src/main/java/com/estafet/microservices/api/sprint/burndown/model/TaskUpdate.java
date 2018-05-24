@@ -2,6 +2,7 @@ package com.estafet.microservices.api.sprint.burndown.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,7 +31,7 @@ public class TaskUpdate {
 
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "SPRINT_DAY_ID", nullable = false, referencedColumnName = "SPRINT_DAY_ID")
+	@JoinColumn(name = "SPRINT_DAY_ID", nullable = false, referencedColumnName = "SPRINT_DAY_ID", foreignKey = @ForeignKey(name = "TASK_UPDATE_TO_SPRINT_DAY_FK"))
 	private SprintDay taskUpdateSprintDay;
 
 	public Integer getId() {
