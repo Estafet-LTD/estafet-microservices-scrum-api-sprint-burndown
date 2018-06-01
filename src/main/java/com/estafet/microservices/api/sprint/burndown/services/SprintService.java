@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.estafet.microservices.api.sprint.burndown.dao.SprintBurndownDAO;
 import com.estafet.microservices.api.sprint.burndown.dao.StoryDAO;
 import com.estafet.microservices.api.sprint.burndown.dao.TaskDAO;
-import com.estafet.microservices.api.sprint.burndown.date.DateHelper;
+import com.estafet.microservices.scrum.lib.commons.date.DateHelper;
 import com.estafet.microservices.api.sprint.burndown.model.Sprint;
 import com.estafet.microservices.api.sprint.burndown.model.Story;
 import com.estafet.microservices.api.sprint.burndown.model.Task;

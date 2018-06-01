@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="Dennis (generated)" id="1527873689761-1">
+        <createSequence sequenceName="sprint_day_id_seq"/>
+    </changeSet>
+    <changeSet author="Dennis (generated)" id="1527873689761-2">
+        <createSequence sequenceName="task_update_id_seq"/>
+    </changeSet>
+    <changeSet author="Dennis (generated)" id="1527873689761-3">
+        <createTable tableName="message_event">
+            <column name="topic_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="message_reference" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Dennis (generated)" id="1527873689761-4">
+        <createTable tableName="sprint">
+            <column name="sprint_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="initial_total_hours" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="no_days" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sprint_number" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_date" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Dennis (generated)" id="1527873689761-5">
+        <createTable tableName="sprint_day">
+            <column name="sprint_day_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="day_no" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="hours_total" type="INT"/>
+            <column name="sprint_day" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sprint_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Dennis (generated)" id="1527873689761-6">
+        <createTable tableName="story">
+            <column name="story_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sprint_id" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Dennis (generated)" id="1527873689761-7">
+        <createTable tableName="task">
+            <column name="task_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="initial_hours" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="remaining_hours" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="remaining_updated" type="VARCHAR(255)"/>
+            <column name="story_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Dennis (generated)" id="1527873689761-8">
+        <createTable tableName="task_update">
+            <column name="task_update_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="remaining_hours" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="task_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sprint_day_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Dennis (generated)" id="1527873689761-9">
+        <addPrimaryKey columnNames="topic_id" constraintName="message_event_pkey" tableName="message_event"/>
+    </changeSet>
+    <changeSet author="Dennis (generated)" id="1527873689761-10">
+        <addPrimaryKey columnNames="sprint_day_id" constraintName="sprint_day_pkey" tableName="sprint_day"/>
+    </changeSet>
+    <changeSet author="Dennis (generated)" id="1527873689761-11">
+        <addPrimaryKey columnNames="sprint_id" constraintName="sprint_pkey" tableName="sprint"/>
+    </changeSet>
+    <changeSet author="Dennis (generated)" id="1527873689761-12">
+        <addPrimaryKey columnNames="story_id" constraintName="story_pkey" tableName="story"/>
+    </changeSet>
+    <changeSet author="Dennis (generated)" id="1527873689761-13">
+        <addPrimaryKey columnNames="task_id" constraintName="task_pkey" tableName="task"/>
+    </changeSet>
+    <changeSet author="Dennis (generated)" id="1527873689761-14">
+        <addPrimaryKey columnNames="task_update_id" constraintName="task_update_pkey" tableName="task_update"/>
+    </changeSet>
+    <changeSet author="Dennis (generated)" id="1527873689761-15">
+        <addForeignKeyConstraint baseColumnNames="sprint_id" baseTableName="sprint_day" constraintName="sprint_day_to_sprint_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="sprint_id" referencedTableName="sprint"/>
+    </changeSet>
+    <changeSet author="Dennis (generated)" id="1527873689761-16">
+        <addForeignKeyConstraint baseColumnNames="sprint_id" baseTableName="story" constraintName="story_to_sprint_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="sprint_id" referencedTableName="sprint"/>
+    </changeSet>
+    <changeSet author="Dennis (generated)" id="1527873689761-17">
+        <addForeignKeyConstraint baseColumnNames="story_id" baseTableName="task" constraintName="task_to_story_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="story_id" referencedTableName="story"/>
+    </changeSet>
+    <changeSet author="Dennis (generated)" id="1527873689761-18">
+        <addForeignKeyConstraint baseColumnNames="sprint_day_id" baseTableName="task_update" constraintName="task_update_to_sprint_day_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="sprint_day_id" referencedTableName="sprint_day"/>
+    </changeSet>
+</databaseChangeLog>
