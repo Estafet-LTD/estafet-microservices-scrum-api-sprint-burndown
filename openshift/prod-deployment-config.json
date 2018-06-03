@@ -86,6 +86,7 @@
 							}
 						],
 						"name": "sprint-burndown",
+						"image": "sprint-burndown:latest",
 						"imagePullPolicy": "Always",
 						"ports": [
 							{
