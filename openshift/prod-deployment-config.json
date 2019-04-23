@@ -50,7 +50,7 @@
 							},
 							{
 								"name": "SPRINT_BURNDOWN_JDBC_URL",
-								"value": "jdbc:postgresql://postgresql.prod.svc:5432/sprint-burndown"
+								"value": "jdbc:postgresql://postgresql.prod.svc:5432/prod-sprint-burndown"
 							},
 							{
 								"name": "JAEGER_SAMPLER_TYPE",
