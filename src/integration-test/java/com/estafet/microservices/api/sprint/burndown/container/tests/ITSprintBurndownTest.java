@@ -68,7 +68,6 @@ public class ITSprintBurndownTest {
 			.statusCode(HttpURLConnection.HTTP_OK)
 			.body("id", is(2000))
 			.body("number", is(2))
-			.body("sprintDays.id", hasItems(1, 2, 3, 4, 5))
 			.body("sprintDays.dayNo", hasItems(1, 2, 3, 4, 5))
 			.body("sprintDays.hoursTotal", hasItems(0, 0, 0, 0, 0))
 			.body("sprintDays.sprintDay", hasItems(null, "2016-10-03 00:00:00", "2016-10-04 00:00:00", "2016-10-05 00:00:00", "2016-10-06 00:00:00", "2016-10-07 00:00:00"));		
