@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,6 +39,9 @@ public class Sprint {
 	
 	@Column(name = "INITIAL_TOTAL_HOURS", nullable = false)
 	private int initialTotalHours = 0;
+	
+	@Transient
+	private String version;
 	
 	@OrderBy("dayNo ASC")
 	@OneToMany(mappedBy = "sprintDaySprint", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -168,13 +172,14 @@ public class Sprint {
 		}
 	}
 
-	public static Sprint getAPI() {
+	public static Sprint getAPI(String version) {
 		Sprint sprint = new Sprint();
 		sprint.id = 1;
 		sprint.noDays = 1;
 		sprint.number = 1;
 		sprint.sprintDays.add(SprintDay.getAPI());
 		sprint.startDate = "2017-10-16 00:00:00";
+		sprint.version = API.getVersion(version);
 		return sprint;
 	}
 	
