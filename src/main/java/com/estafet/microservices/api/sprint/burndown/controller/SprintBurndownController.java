@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.estafet.microservices.api.sprint.burndown.model.Sprint;
 import com.estafet.microservices.api.sprint.burndown.services.SprintService;
 
+import io.opentracing.Tracer;
+
 @RestController
 public class SprintBurndownController {
 
@@ -18,8 +20,12 @@ public class SprintBurndownController {
 	@Autowired
 	private SprintService sprintService;
 	
+	@Autowired
+	private Tracer tracer;	
+	
 	@GetMapping("/api")
 	public Sprint getAPI() {
+		tracer.activeSpan().deactivate();
 		return Sprint.getAPI(appVersion);
 	}
 	
