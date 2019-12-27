@@ -14,6 +14,7 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
+import com.estafet.microservices.scrum.lib.commons.properties.PropertyUtils;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 
@@ -26,7 +27,7 @@ public class ITSprintBurndownTest {
 
 	@Before
 	public void before() throws Exception {
-		RestAssured.baseURI = System.getenv("SPRINT_BURNDOWN_SERVICE_URI");
+		RestAssured.baseURI = PropertyUtils.instance().getProperty("SPRINT_BURNDOWN_SERVICE_URI");
 	}
 
 	@Test
